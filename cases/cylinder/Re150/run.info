@@ -1,0 +1,9 @@
+                --nx	455
+                --ny	396
+         --startStep	0
+                --nt	4000
+             --nsave	200
+                --dt	0.01
+           --vortlim	15
+            --folder	cases/cylinder/Re150
+                --nu	0.00666667

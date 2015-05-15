@@ -1,0 +1,9 @@
+                --nx	557
+                --ny	372
+         --startStep	0
+                --nt	1000
+             --nsave	200
+                --dt	0.01
+           --vortlim	15
+            --folder	cases/cylinder/Re40
+                --nu	0.025
