@@ -3,7 +3,10 @@
 /build
 /bin
 
-# CUDA ignore filetypes
+# Autosave files
+*~
+
+## CUDA ignore filetypes
 *.i
 *.ii
 *.gpu
@@ -11,7 +14,7 @@
 *.cubin
 *.fatbin
 
-# Generic C++ ignore filetypes
+## Generic C++ ignore filetypes
 
 # Compiled Object files
 *.slo
@@ -41,3 +44,10 @@
 *.exe
 *.out
 *.app
+
+## Python ignore filetypes
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
