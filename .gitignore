@@ -1,0 +1,53 @@
+## .gitignore file
+
+/build
+/bin
+
+# Autosave files
+*~
+
+## CUDA ignore filetypes
+*.i
+*.ii
+*.gpu
+*.ptx
+*.cubin
+*.fatbin
+
+## Generic C++ ignore filetypes
+
+# Compiled Object files
+*.slo
+*.lo
+*.o
+*.obj
+
+# Precompiled Headers
+*.gch
+*.pch
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Fortran module files
+*.mod
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+*.lib
+
+# Executables
+*.exe
+*.out
+*.app
+
+## Python ignore filetypes
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
