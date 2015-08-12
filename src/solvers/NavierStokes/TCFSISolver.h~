@@ -65,8 +65,8 @@ private:
 	//solve structure equation
 	void solveStructure();
 
-	//check if substep is converged
-	bool checkConvergence(int k);
+	//FSI output
+	void printFSI(real tempF);
 	/**
 	 * \brief Warning: the definition of this method does not exist.
 	 */

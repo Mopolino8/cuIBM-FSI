@@ -93,7 +93,6 @@ void TairaColoniusSolver<memoryType>::updateSolverState()
 {
 	if (NSWithBody<memoryType>::B.bodiesMove)
 	{
-		
 		NSWithBody<memoryType>::updateBodies();
 		updateQT();
 		NavierStokesSolver<memoryType>::generateC();

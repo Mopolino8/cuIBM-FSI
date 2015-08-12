@@ -44,23 +44,24 @@ void NavierStokesSolver<memoryType>::initialiseCommon()
 	
 	timeScheme convScheme = (*paramDB)["simulation"]["convTimeScheme"].get<timeScheme>(),
 	           diffScheme = (*paramDB)["simulation"]["diffTimeScheme"].get<timeScheme>();
+	std::cout<<"1\n";
 	intgSchm.initialise(convScheme, diffScheme);
-
+	std::cout<<"2\n";
 	// initial values of timeStep
 	timeStep = (*paramDB)["simulation"]["startStep"].get<int>();
-	
+	std::cout<<"3\n";	
 	// creates directory 
 	std::string folder = (*paramDB)["inputs"]["caseFolder"].get<std::string>();
 	io::makeDirectory(folder);
-
+	std::cout<<"4\n";
 	// writes the grids information to a file
 	io::writeGrid(folder, *domInfo);
-
+	std::cout<<"5\n";
 	// opens the file to which the number of iterations at every step is written
 	std::stringstream out;
 	out << folder << "/iterations";
 	iterationsFile.open(out.str().c_str());
-	
+	std::cout<<"6\n";	
 	std::cout << "Initialised common stuff!" << std::endl;
 	
 	logger.stopTimer("initialiseCommon");
@@ -76,7 +77,7 @@ template <typename memoryType>
 void NavierStokesSolver<memoryType>::initialiseArrays(int numQ, int numLambda)
 {	
 	logger.startTimer("initialiseArrays");
-	
+
 	q.resize(numQ);
 	qStar.resize(numQ);
 	qOld.resize(numQ);
@@ -307,7 +308,7 @@ void NavierStokesSolver<memoryType>::stepTime()
 		updateSolverState();
 
 		//Set up and solve the first system for the intermediate velocity
-		generateRN();//calculates diffusion, convection and timestepping matricies, 
+		generateRN();//calculates diffusion, convection and timestepping matricies,
 		generateBC1();//solve for bc1
 		assembleRHS1();//add bc1 and rn to get r1 eqn 22
 		//eqn 25 in tiara colonius
@@ -407,24 +408,31 @@ void NavierStokesSolver<memoryType>::assembleMatrices()
  * Currently, the order is N=1.
  *
  */
+
+
 template <typename memoryType>
 void NavierStokesSolver<memoryType>::generateBN()
 {
+	
 	BN = Minv; // 1st-order
 }
 
 /*
 template <typename memoryType>
-template <>
-void NavierStokesSolver<memoryType>::generateBN<3>()
+void NavierStokesSolver<memoryType>::generateBN()
 {
-	Matrix	temp1, temp2;
-	cusp::multiply(Minv, L, temp1);
-	cusp::multiply(temp1, Minv, BN);
-	cusp::add(Minv, BN, BN);
-	cusp::multiply(temp1, BN, temp2);
-	cusp::add(Minv, temp2, BN);
-}*/
+	cusp::coo_matrix<int, real, memoryType> mTemp1;
+	cusp::coo_matrix<int, real, memoryType> mTemp2;
+	//BN=Minv;
+	cusp::multiply(Minv, L, mTemp1);
+	cusp::multiply(mTemp1, Minv, BN);
+	cusp::blas::scal(BN.values, 0.5);
+	cusp::add(BN, Minv, BN);
+	//cusp::blas::axpby(Minv, BN, BN, 1, 0.5);
+	//cusp::multiply(temp1, BN, temp2);
+	//cusp::add(Minv, temp2, BN);
+}
+*/
 
 /**
  * \brief Generates the matrix of the Poisson solver (on the device).
@@ -434,7 +442,7 @@ void NavierStokesSolver<device_memory>::generateC()
 {
 	logger.startTimer("generateC");
 	
-	cooD temp; // Should this temp matrix be created each time step?
+	cooD temp;
 	cusp::multiply(QT, BN, temp);
 	cusp::multiply(temp, Q, C);
 	C.values[0] += C.values[0];

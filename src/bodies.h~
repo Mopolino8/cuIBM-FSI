@@ -79,7 +79,7 @@ public:
 	cusp::array1d<bool, memoryType>
 		converged;
 
-	cusp::array1d<bool, memoryType>
+	cusp::array1d<real, memoryType>
 		test;
 
 	real centerVelocityU,

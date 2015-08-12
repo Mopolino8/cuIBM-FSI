@@ -125,7 +125,7 @@ void DirectForcingSolver<device_memory>::generateL()
 				num_elements++;
 			}
 			// west
-			if(i>0)  // no west coefficient for the leftmost column			
+			if(i>0)  // no west coefficient for the leftmost column
 			{
 				LHost.row_indices[num_elements] = I;
 				LHost.column_indices[num_elements] = I-1;

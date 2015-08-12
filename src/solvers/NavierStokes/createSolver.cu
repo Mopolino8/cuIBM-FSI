@@ -54,8 +54,21 @@ NavierStokesSolver<memoryType>* createSolver(parameterDB &paramDB, domain &domIn
 			solver = new NavierStokesSolver<memoryType>(&paramDB, &domInfo);
 			break;
 		case DIRECT_FORCING:
-			solver = new DirectForcingSolver<memoryType>(&paramDB, &domInfo);
-			break;
+			if (fsiT == 1)
+			{
+				solver = new DirectForcingSolver<memoryType>(&paramDB, &domInfo);
+				break;
+			}
+			else if (fsiT == 0)
+			{
+				solver = new DFFSI<memoryType>(&paramDB, &domInfo);
+				break;
+			}
+			else
+			{
+				std::cout << "Unknown FSI Type... exiting\n";
+				break;
+			}
 		case FADLUN_ET_AL:
 			solver = new FadlunEtAlSolver<memoryType>(&paramDB, &domInfo);
 			break;

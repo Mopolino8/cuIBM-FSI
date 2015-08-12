@@ -10,7 +10,7 @@
  */
 template <typename memoryType>
 void TCFSISolver<memoryType>::calculateCellIndices(domain &D)
-{
+{/*
 	int	i=0, j=0;
 
 	// find the cell for the zeroth point
@@ -47,9 +47,9 @@ void TCFSISolver<memoryType>::calculateCellIndices(domain &D)
 			while(D.y[j+1] < NSWithBody<memoryType>::B.yk[k])
 				j++;
 		}
-		I[k] = i;
-		J[k] = j;
-	}
+		NSWithBody<memoryType>::B.I[k] = i;
+		NSWithBody<memoryType>::B.J[k] = j;
+	}*/
 }
 
 /**
@@ -57,7 +57,7 @@ void TCFSISolver<memoryType>::calculateCellIndices(domain &D)
  */
 template <typename memoryType>
 void TCFSISolver<memoryType>::calculateBoundingBoxes(parameterDB &db, domain &D)
-{
+{/*
 	real scale = db["simulation"]["scaleCV"].get<real>(),
 	     dx, dy;
 	int  i, j;
@@ -95,7 +95,7 @@ void TCFSISolver<memoryType>::calculateBoundingBoxes(parameterDB &db, domain &D)
 			j++;
 		NSWithBody<memoryType>::B.numCellsX[k] = i - NSWithBody<memoryType>::B.startI[k];
 		NSWithBody<memoryType>::B.numCellsY[k] = j - NSWithBody<memoryType>::B.startJ[k];
-	}
+	}*/
 }
 
 

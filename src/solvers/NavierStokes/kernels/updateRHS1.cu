@@ -77,8 +77,8 @@ void updateRHS1X(real *rhs1, int nx, int ny, real dt, real *dx, int *tags, real 
 	
 	if( I < (nx-1)*ny )
 	{
-		rhs1[I] = (tags[I]==-1)*rhs1[I] 
-		          + ((tags[I]!=-1)*((1.0-coeffs[I]-coeffs2[I])*uv[I])) * 0.5*(dx[i+1]+dx[i])/dt;
+		rhs1[I] = (tags[I]==-1)*rhs1[I] 								//not in interpolation zone
+		          + ((tags[I]!=-1)*((1.0-coeffs[I]-coeffs2[I])*uv[I])) * 0.5*(dx[i+1]+dx[i])/dt;	//in interpolation zone
 	}
 }
 

@@ -8,7 +8,6 @@
 #include "NSWithBody.h"
 #include "kernels/calculateForce.h"
 
-
 /**
  * \brief Stores the parameters of the simulation and initializes the location
  *        and motion of each immersed bodies.

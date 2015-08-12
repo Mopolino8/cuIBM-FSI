@@ -1,9 +1,9 @@
 - type: simulation
   dt: 0.01
-  nt: 4000
-  nsave: 250
-  timeScheme: [ADAMS_BASHFORTH_2, CRANK_NICOLSON]
-  ibmScheme: TAIRA_COLONIUS
+  nt: 15000
+  nsave: 1000
+  timeScheme: [EULER_EXPLICIT, EULER_EXPLICIT]
+  ibmScheme: DIRECT_FORCING
   fsiType: on
   useIC: off
   wallSlip: slip

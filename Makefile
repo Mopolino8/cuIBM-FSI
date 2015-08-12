@@ -200,6 +200,9 @@ flappingRe75:
 oscillatingCylinders:
 	time bin/cuIBM -caseFolder cases/oscillatingCylinders
 
+heavingRe500:
+	bin/cuIBM -caseFolder cases/heavingRe500
+
 test1:
 	bin/cuIBM -caseFolder cases/test/1
 test2:

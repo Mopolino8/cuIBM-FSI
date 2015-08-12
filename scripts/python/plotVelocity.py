@@ -86,10 +86,10 @@ def main():
 		if u is None or v is None:
 			break
 
-		# plot u-velocity contour
+		# plot u-velocity contourf
 		fig = plt.figure()
 		ax = fig.add_subplot(111)
-		CS = ax.contour(Xu, Yu, u.reshape((ny, nx-1)),
+		CS = ax.contourf(Xu, Yu, u.reshape((ny, nx-1)),
 					levels=np.linspace(-args.u_lim, args.u_lim, 21))
 		fig.gca().set_aspect('equal', adjustable='box')
 		ax.set_xlim([x_start,x_end])
@@ -100,10 +100,10 @@ def main():
 		fig.savefig('%s/u%07d.pdf' % (folder, ite))
 		fig.clf()
 	
-		# plot v-velocity contour
+		# plot v-velocity contourf
 		fig = plt.figure()
 		ax = fig.add_subplot(111)
-		CS = ax.contour(Xv, Yv, v.reshape((ny-1, nx)), 
+		CS = ax.contourf(Xv, Yv, v.reshape((ny-1, nx)), 
 					levels=np.linspace(-args.v_lim, args.v_lim, 21))
 		fig.gca().set_aspect('equal', adjustable='box')
 		ax.set_xlim([x_start,x_end])

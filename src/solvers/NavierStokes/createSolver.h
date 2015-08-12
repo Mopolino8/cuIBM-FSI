@@ -9,6 +9,7 @@
 
 #include "NavierStokesSolver.h"
 #include "DirectForcingSolver.h"
+#include "DFFSI.h"
 #include "FadlunEtAlSolver.h"
 #include "TairaColoniusSolver.h"
 #include "DiffusionSolver.h"

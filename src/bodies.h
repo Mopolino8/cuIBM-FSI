@@ -61,14 +61,14 @@ public:
         cusp::array1d<real, memoryType>
 		xk,	//x-coordinate of boundary points at substep k
 		yk,	//y-coordinate of boundary points at substep k
-	     	xkp1,	//x-coordinate of boundary points at substep k+1	//not needed?
-	     	ykp1;	//y-coordinate of boundary points at substep k+1	//not needed?
+	     	xkp1,	//x-coordinate of boundary points at substep k+1
+	     	ykp1;	//y-coordinate of boundary points at substep k+1
 
 	cusp::array1d<real, memoryType>
-		fXk,	//force X at substep k		//not needed?
-		fYk,	//force Y at substep k		//not needed?
-		fXkp1,	//force X at substep k+1	//not needed?
-		fYkp1;	//force Y at substep k+1	//not needed?
+		fXk,	//force X at substep k
+		fYk,	//force Y at substep k
+		fXkp1,	//force X at substep k+1
+		fYkp1;	//force Y at substep k+1
 
 	cusp::array1d<real, memoryType>
 		uBk,	//x-velocity of boundary points at substep k

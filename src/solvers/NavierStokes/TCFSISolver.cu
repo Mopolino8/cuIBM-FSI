@@ -88,80 +88,84 @@ void TCFSISolver<memoryType>::writeData()
 template <typename memoryType>
 void TCFSISolver<memoryType>::stepTime()
 {
+	
 	int k = 0;
 	isSub = true;
 	NavierStokesSolver<memoryType>::qOld = NavierStokesSolver<memoryType>::q;
+/*
+	TCFSISolver<memoryType>::calculateCellIndices(*NavierStokesSolver<memoryType>::domInfo);
+	TCFSISolver<memoryType>::calculateBoundingBoxes(*NavierStokesSolver<memoryType>::paramDB,  *NavierStokesSolver<memoryType>::domInfo);
+	TCFSISolver<memoryType>::updateQT(isSub); //makes new QT based on substep uB,vB	
+	NavierStokesSolver<memoryType>::generateC(); //QT*BN*Q, QT and Q made in update QT, BN doesn't need to be remade.
+	NavierStokesSolver<memoryType>::PC2->update(NavierStokesSolver<memoryType>::C); //update preconditioner
 
-	//solve for intermediate velocity
-	//not needed in the loop because it doesn't change
-	/*
+	////intermediate velocity
 	NavierStokesSolver<memoryType>::generateRN();
 	NavierStokesSolver<memoryType>::generateBC1();
 	NavierStokesSolver<memoryType>::assembleRHS1();
 	NavierStokesSolver<memoryType>::solveIntermediateVelocity();
-	*/
-
-	//release at timestep x
-	if (NavierStokesSolver<memoryType>::timeStep < 0)
+*/
+	
+	if (NavierStokesSolver<memoryType>::timeStep < 1)
 	{
+		////setup
+		TCFSISolver<memoryType>::calculateCellIndices(*NavierStokesSolver<memoryType>::domInfo);
+		TCFSISolver<memoryType>::calculateBoundingBoxes(*NavierStokesSolver<memoryType>::paramDB,  *NavierStokesSolver<memoryType>::domInfo);
+		TCFSISolver<memoryType>::updateQT(isSub); //makes new QT based on substep uB,vB	
+		NavierStokesSolver<memoryType>::generateC(); //QT*BN*Q, QT and Q made in update QT, BN doesn't need to be remade.
+		NavierStokesSolver<memoryType>::PC2->update(NavierStokesSolver<memoryType>::C); //update preconditioner
+
 		NavierStokesSolver<memoryType>::generateRN();
 		NavierStokesSolver<memoryType>::generateBC1();
 		NavierStokesSolver<memoryType>::assembleRHS1();
 		NavierStokesSolver<memoryType>::solveIntermediateVelocity();
 
-		NSWithBody<memoryType>::B.calculateCellIndices(*NavierStokesSolver<memoryType>::domInfo);
-		NSWithBody<memoryType>::B.calculateBoundingBoxes(*NavierStokesSolver<memoryType>::paramDB,  *NavierStokesSolver<memoryType>::domInfo);
-		//solve poisson equation
-		TCFSISolver<memoryType>::updateQT(isSub); //makes new QT based on substep uB,vB	
-		NavierStokesSolver<memoryType>::generateC(); //QT*BN*Q, QT and Q made in update QT, BN doesn't need to be remade.
-		NavierStokesSolver<memoryType>::PC2->update(NavierStokesSolver<memoryType>::C); //update preconditioner
+		////poisson equation
 		TCFSISolver<memoryType>::generateBC2(); //new bc2 based on ubk to enforce no slip
 		NavierStokesSolver<memoryType>::assembleRHS2(); //QT*qStar + bc2
 		TCFSISolver<memoryType>::solvePoisson();
-
+		
 		////projection step
 		TCFSISolver<memoryType>::projectionStep();
-
-		////compute the forces exerted on the boundary by the fluid(step 2)
-		TCFSISolver<memoryType>::calculateForce();
 	}
 	else
 	{
-		//std::cout<<NavierStokesSolver<memoryType>::timeStep*0.01<<"\n k\ty\t\tv\t\tforce\n";
-		do
-		{
-			////setup
-			TCFSISolver<memoryType>::calculateCellIndices(*NavierStokesSolver<memoryType>::domInfo);
-			TCFSISolver<memoryType>::calculateBoundingBoxes(*NavierStokesSolver<memoryType>::paramDB,  *NavierStokesSolver<memoryType>::domInfo);
-			TCFSISolver<memoryType>::updateQT(isSub); //makes new QT based on substep uB,vB	
-			NavierStokesSolver<memoryType>::generateC(); //QT*BN*Q, QT and Q made in update QT, BN doesn't need to be remade.
-			NavierStokesSolver<memoryType>::PC2->update(NavierStokesSolver<memoryType>::C); //update preconditioner
+	do
+	{
+		/**/
+		////setup
+		TCFSISolver<memoryType>::calculateCellIndices(*NavierStokesSolver<memoryType>::domInfo);
+		TCFSISolver<memoryType>::calculateBoundingBoxes(*NavierStokesSolver<memoryType>::paramDB,  *NavierStokesSolver<memoryType>::domInfo);
+		TCFSISolver<memoryType>::updateQT(isSub); //makes new QT based on substep uB,vB	
+		NavierStokesSolver<memoryType>::generateC(); //QT*BN*Q, QT and Q made in update QT, BN doesn't need to be remade.
+		NavierStokesSolver<memoryType>::PC2->update(NavierStokesSolver<memoryType>::C); //update preconditioner
 
-			////intermediate velocity
-			NavierStokesSolver<memoryType>::generateRN();
-			NavierStokesSolver<memoryType>::generateBC1();
-			NavierStokesSolver<memoryType>::assembleRHS1();
-			NavierStokesSolver<memoryType>::solveIntermediateVelocity();
+		NavierStokesSolver<memoryType>::generateRN();
+		NavierStokesSolver<memoryType>::generateBC1();
+		NavierStokesSolver<memoryType>::assembleRHS1();
+		NavierStokesSolver<memoryType>::solveIntermediateVelocity();
+		
+		////poisson equation
+		TCFSISolver<memoryType>::generateBC2(); //new bc2 based on ubk to enforce no slip
+		NavierStokesSolver<memoryType>::assembleRHS2(); //QT*qStar + bc2
+		TCFSISolver<memoryType>::solvePoisson();
+		
+		////projection step
+		//TCFSISolver<memoryType>::projectionStep();
+		
+		////compute the forces exerted on the boundary by the fluid(step 2)
+		TCFSISolver<memoryType>::calculateForce();
 
-			////poisson equation
-			TCFSISolver<memoryType>::generateBC2(); //new bc2 based on ubk to enforce no slip
-			NavierStokesSolver<memoryType>::assembleRHS2(); //QT*qStar + bc2
-			TCFSISolver<memoryType>::solvePoisson();
-			
-			////projection step
-			TCFSISolver<memoryType>::projectionStep();
-			
-			////compute the forces exerted on the boundary by the fluid(step 2)
-			TCFSISolver<memoryType>::calculateForce();
-			
-			////solve the structure equation for Xk+1 and uBk+1(step 3) and update structure location (step 4)
-			NSWithBody<memoryType>::B.converged[0] = true;
-			TCFSISolver<memoryType>::solveStructure();
-			k++;
-			TCFSISolver<memoryType>::printFSI();
-		//}while(k<1);
-		}while(NSWithBody<memoryType>::B.converged[0] == false);
+		////solve the structure equation for Xk+1 and uBk+1(step 3) and update structure location (step 4)
+		NSWithBody<memoryType>::B.converged[0] = true;
+		TCFSISolver<memoryType>::solveStructure();
+		k++;
+		TCFSISolver<memoryType>::printFSI();
+	//}while(k<1);
+	}while(NSWithBody<memoryType>::B.converged[0] == false);
 	}
+
+	TCFSISolver<memoryType>::projectionStep();
 	//update iterating variables
 	NavierStokesSolver<memoryType>::q = NavierStokesSolver<memoryType>::qk;
 	NSWithBody<memoryType>::B.vB = NSWithBody<memoryType>::B.vBk;
@@ -170,6 +174,7 @@ void TCFSISolver<memoryType>::stepTime()
 	//NSWithBody<memoryType>::B.uB = NSWithBody<memoryType>::B.uBk;
 
 	NavierStokesSolver<memoryType>::timeStep++;
+	
 }
 
 /**
@@ -203,14 +208,17 @@ void TCFSISolver<memoryType>::updateSolverState()
 template <typename memoryType>
 void TCFSISolver<memoryType>::printFSI()
 {
-	std::cout<<NavierStokesSolver<memoryType>::timeStep*0.01<<"\n";
+	std::cout<<NavierStokesSolver<memoryType>::timeStep*0.01<<"\t"<<NSWithBody<memoryType>::B.ykp1[0]<<"\t"<<NSWithBody<memoryType>::B.forceY[0]<<"\n";
 	//std::cout<<NSWithBody<memoryType>::B.yk[0]<<"   \t"<<NSWithBody<memoryType>::B.vBk[0]<<"   \t"<<NSWithBody<memoryType>::B.forceY[0]<<"\n";
 	NSWithBody<memoryType>::output<<NavierStokesSolver<memoryType>::timeStep*0.01<<"  \t";
 	NSWithBody<memoryType>::output<<NSWithBody<memoryType>::B.ykp1[0]<<"  \t";
 	//NSWithBody<memoryType>::output<<NSWithBody<memoryType>::B.yk[0]<<"  \t";
 	//NSWithBody<memoryType>::output<<NSWithBody<memoryType>::B.test[0]<<"  \t";
 	NSWithBody<memoryType>::output<<NSWithBody<memoryType>::B.forceY[0]<<"  \t";
-	NSWithBody<memoryType>::output<<NSWithBody<memoryType>::B.vBk[0]<<"\n";
+	NSWithBody<memoryType>::output<<NSWithBody<memoryType>::B.vBk[0]<<"\t";
+	//for (int i = 0; i < NSWithBody<memoryType>::B.numPoints[0]; i++)
+	//	NSWithBody<memoryType>::output<< NSWithBody<memoryType>::B.ykp1[i]<<"\t";
+	NSWithBody<memoryType>::output<<"\n";
 }
 
 /**

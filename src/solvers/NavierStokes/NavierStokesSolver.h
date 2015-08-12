@@ -4,7 +4,6 @@
  * \brief Declaration of the class \c NavierStokesSolver.
  */
 
-
 #pragma once
 
 #include <types.h>
@@ -14,7 +13,7 @@
 #include <io/io.h>
 #include <parameterDB.h>
 #include <preconditioner.h>
-
+#include <ctime>
 
 /**
  * \class NavierStokesSolver
@@ -43,6 +42,8 @@ protected:
 	    QT,		///< transposed gradient matrix (and interpolation matrix if immersed body)
 	    BN,		///< N-th order Taylor series expansion of the inverse of \c A
 	    C;		///< matrix of the Poisson system
+	    //mTemp1;	///< temproary matrix for BN calculation
+	    //mTemp2;	///< temporary matrix for BN calculation
 
 	cusp::array1d<real, memoryType>
 	    q,			///< velocity flux vector

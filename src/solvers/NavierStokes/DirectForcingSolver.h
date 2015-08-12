@@ -31,6 +31,7 @@ protected:
 	// For the 1D interpolations
 	cusp::array1d<int, host_memory>    tags,  tags2;
 	cusp::array1d<int, device_memory>  tagsD, tags2D;
+	cusp::array1d<real, memoryType>  q_is, A_is, lambda_is, tempForce, uvFlex;
 	vecH coeffs, coeffs2;
 	vecD coeffsD, coeffs2D;
 	vecH uv;
@@ -64,6 +65,8 @@ public:
 	DirectForcingSolver(parameterDB *pDB=NULL, domain *dInfo=NULL);
 	virtual void initialise();
 	virtual void writeData();
+	void calcForce();
+	virtual void calculateForce();
 	
 	/**
 	 * \brief Returns the name of the solver as a string.

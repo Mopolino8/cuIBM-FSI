@@ -265,38 +265,17 @@ void bodies<memoryType>::update(parameterDB &db, domain &D, real Time)
 			vBView   = View(vB.begin()+offsets[l], vB.begin()+offsets[l+1]);
 			xView    = View(x.begin()+offsets[l], x.begin()+offsets[l+1]);
 			yView    = View(y.begin()+offsets[l], y.begin()+offsets[l+1]);
-			/*
-			if (D["simulation"]["fsiType"].get<fsiType>() == 0)//fsi on
-			{ //use k values
-				uBView   = View(uBk.begin()+offsets[l], uBk.begin()+offsets[l+1]);
-				vBView   = View(vBk.begin()+offsets[l], vBk.begin()+offsets[l+1]);
-				xView    = View(xk.begin()+offsets[l], xk.begin()+offsets[l+1]);
-				yView    = View(yk.begin()+offsets[l], yk.begin()+offsets[l+1]);
-			}
-			else if(
-			*/
 		}
 		else
 		{
 			XView    = View(X.begin()+offsets[l], X.end());
 			YView    = View(Y.begin()+offsets[l], Y.end());
 			onesView = View(ones.begin()+offsets[l], ones.end());
-			/*
-			if (D["simulation"]["fsiType"].get<fsiType>() == 0)//fsi on
-			{ //use k values
-				xView    = View(xk.begin()+offsets[l], xk.end());
-				yView    = View(yk.begin()+offsets[l], yk.end());
-				uBView   = View(uBk.begin()+offsets[l], uBk.end());
-				vBView   = View(vBk.begin()+offsets[l], vBk.end());
-			}
-			else if (D["simulation"]["fsiType"].get<fsiType>() == 1)//fsi off
-			{
-			*/
-				xView    = View(x.begin()+offsets[l], x.end());
-				yView    = View(y.begin()+offsets[l], y.end());
-				uBView   = View(uB.begin()+offsets[l], uB.end());
-				vBView   = View(vB.begin()+offsets[l], vB.end());
-			//}
+			xView    = View(x.begin()+offsets[l], x.end());
+			yView    = View(y.begin()+offsets[l], y.end());
+			uBView   = View(uB.begin()+offsets[l], uB.end());
+			vBView   = View(vB.begin()+offsets[l], vB.end());
+			
 		}
 
 		// update postitions	

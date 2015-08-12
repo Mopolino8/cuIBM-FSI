@@ -346,4 +346,56 @@ void forceX(real *f, real *q, real *rn, int *tags,
 __global__
 void forceY(){}
 
+__global__
+void qinterpX(real *q_is, real *coef1, real *coef2, int *tags, int nx, int ny)
+{
+	int i = threadIdx.x + (blockDim.x * blockIdx.x);
+	
+	if( i < (nx-1)*ny )			//only act on the "u" portion of the zone
+	{
+		q_is[i] = (tags[i]==-1) * 0
+			+ (tags[i]!=-1) * q_is[i]/(1.0-coef1[i]-coef2[i]);
+	}
+}
+
+__global__
+void qinterpY(real *q_is, real *coef1, real *coef2, int *tags, int nx, int ny)
+{
+	int numU = (nx-1)*ny;
+	int i = threadIdx.x + (blockDim.x * blockIdx.x) + numU;
+
+	if( i < numU + nx*(ny-1) )
+	{
+		q_is[i] = (tags[i]==-1) * 0
+			+ (tags[i]!=-1) * q_is[i]/(1.0-coef1[i]-coef2[i]);
+	}
+}
+
+__global__
+void interpX(real *output, real *dx, real *coef1, real *coef2, int *tags, int nx, int ny)
+{
+	int i = threadIdx.x + (blockDim.x * blockIdx.x);
+	int I = i % (nx-1);
+
+	if( i < (nx-1)*ny )													//only act on the "u" portion of the zone
+	{
+	output[i] = (tags[i]==-1) * 0												//no tags
+		  + (tags[i]!=-1) * (output[i]*dx[I-1] + output[i]*dx[I]) * (1/(dx[I-1]+dx[I])) / (1.0-coef1[i]-coef2[i]);	//tags
+	}
+}
+
+__global__
+void interpY(real *output, real *dy, real *coef1, real *coef2, int *tags, int nx, int ny)
+{
+	int numU = (nx-1)*ny;
+	int i = blockIdx.x*blockDim.x + threadIdx.x + numU;
+	int J = (i-numU) / nx;
+	
+	if( i < numU + nx*(ny-1) )
+	{
+	output[i] = (tags[i]==-1) * 0
+		  + (tags[i]!=-1) * (output[i]*dy[J-1] + output[i]*dy[J]) * (1/(dy[J-1]+dy[J])) / (1.0-coef1[i]-coef2[i]);
+	}
+}
+
 } // end of namespace kernels

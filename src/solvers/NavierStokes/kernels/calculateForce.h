@@ -47,8 +47,20 @@ void forceX(real *f, real *q, real *rn, int *tags,
             int nx, int ny, real *dx, real *dy, 
             real dt, real alpha, real nu);
 
+__global__
+void qinterpX(real *q_is, real *coef1, real *coef2, int *tags, int nx, int ny);
+
+__global__
+void qinterpY(real *q_is, real *coef1, real *coef2, int *tags, int nx, int ny);
+
+__global__
+void interpX(real *output, real *dx, real *coef1, real *coef2, int *tags, int nx, int ny);
+
+__global__
+void interpY(real *output, real *dy, real *coef1, real *coef2, int *tags, int nx, int ny);
+
 // doing nothing
 __global__
 void forceY();
-                   
+
 } // end of namespace kernels

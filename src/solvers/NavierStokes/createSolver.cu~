@@ -43,7 +43,6 @@ NavierStokesSolver<memoryType>* createSolver(parameterDB &paramDB, domain &domIn
 			else if (fsiT == 0)
 			{
 				solver = new TCFSISolver<memoryType>(&paramDB, &domInfo);
-				std::cout<<"tcfsisolver\n\n\n\n\n\n\n";
 				break;
 			}
 			else

@@ -1,0 +1,9 @@
+                --nx	1610
+                --ny	1124
+         --startStep	0
+                --nt	60000
+             --nsave	1000
+                --dt	0.0002
+           --vortlim	15
+            --folder	/home/chris/src/cuIBM/validation/NACA0008/AoA04_0.002
+                --nu	0.0005

@@ -1,0 +1,9 @@
+                --nx	466
+                --ny	372
+         --startStep	0
+                --nt	2400
+             --nsave	100
+                --dt	0.005
+           --vortlim	15
+            --folder	cases/oscillatingCylinders
+                --nu	0.01

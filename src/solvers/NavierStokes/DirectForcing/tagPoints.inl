@@ -46,17 +46,17 @@ void DirectForcingSolver<device_memory>::tagPoints()
 	     *by = thrust::raw_pointer_cast(&(byH[0])),
 	     *uB = thrust::raw_pointer_cast(&(uBH[0])),
 	     *vB = thrust::raw_pointer_cast(&(vBH[0]));
-	
+
 	//tagPoints(bx, by);
 	tagPoints(bx, by, uB, vB);
-	
+
 	// transferring tag and coeffs data to the device
 	tagsD    = tags;
 	tags2D   = tags2;
 	coeffsD  = coeffs;
 	coeffs2D = coeffs2;
 	uvD      = uv;
-	
+
 	logger.stopTimer("tagPoints");
 }
 

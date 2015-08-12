@@ -18,8 +18,7 @@
  */
 template <typename memoryType>
 void TairaColoniusSolver<memoryType>::initialise()
-{	
-	std::cout<<"TC initialise";
+{
 	//gets and sets number of points in the x and y from dominfo
 	int nx = NavierStokesSolver<memoryType>::domInfo->nx,
         ny = NavierStokesSolver<memoryType>::domInfo->ny;
@@ -52,7 +51,6 @@ void TairaColoniusSolver<memoryType>::initialise()
 template <typename memoryType>
 void TairaColoniusSolver<memoryType>::writeData()
 {	
-	std::cout<<"Tc write data";
 	NavierStokesSolver<memoryType>::logger.startTimer("output");
 
 	NSWithBody<memoryType>::writeCommon();
@@ -93,7 +91,6 @@ void TairaColoniusSolver<memoryType>::writeData()
 template <typename memoryType>
 void TairaColoniusSolver<memoryType>::updateSolverState()
 {
-	std::cout<<"TC updatesolerstate";
 	if (NSWithBody<memoryType>::B.bodiesMove)
 	{
 		

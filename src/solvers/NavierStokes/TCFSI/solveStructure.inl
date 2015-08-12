@@ -10,6 +10,7 @@
 template <typename memoryType>
 void TCFSISolver<memoryType>::solveStructure()
 {
+	
 	NavierStokesSolver<memoryType>::logger.startTimer("solveStructure");
 
 	parameterDB  &db = *NavierStokesSolver<memoryType>::paramDB;
@@ -28,7 +29,7 @@ void TCFSISolver<memoryType>::solveStructure()
 	Ured = 3;
 	Cy = forcey*2;
 	dt  = db["simulation"]["dt"].get<real>();
-	alpha_ = 0.1;
+	alpha_ = 1.0;
 	NumP = NSWithBody<memoryType>::B.numPoints[0], //only looks at the first immeresed body
 	tol = 0.000001;
 	
@@ -42,8 +43,8 @@ void TCFSISolver<memoryType>::solveStructure()
 	bool *con_r  = thrust::raw_pointer_cast(&NSWithBody<memoryType>::B.converged[0]);
 
 	//call fsi kernel
-	dim3 dimGrid(NumP,1);
-	dim3 dimBlock(1,1);
+	dim3 dimGrid(1,1);
+	dim3 dimBlock(NumP,1);
 	kernels::vorticityInducedVibrationsSC<<<dimGrid,dimBlock>>>(vBk_r, vB_r, y_r, ykp1_r, forcey, Mred, Ured, Cy, dt, alpha_);
 	
 	//check for convergence

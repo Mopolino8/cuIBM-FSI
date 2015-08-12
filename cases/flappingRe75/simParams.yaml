@@ -7,6 +7,9 @@
   startStep: 0
   timeScheme: [ADAMS_BASHFORTH_2, CRANK_NICOLSON]
   ibmScheme: TAIRA_COLONIUS
+  fsiType: off
+  useIC: off
+  wallSlip: slip
   linearSolvers:
     - system: velocity
       solver: CG

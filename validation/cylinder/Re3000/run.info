@@ -1,0 +1,9 @@
+                --nx	986
+                --ny	986
+         --startStep	0
+                --nt	3000
+             --nsave	500
+                --dt	0.001
+           --vortlim	15
+            --folder	/home/chris/src/cuIBM/validation/cylinder/Re3000
+                --nu	0.000333333

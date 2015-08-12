@@ -1,15 +1,15 @@
 - type: simulation
   dt: 0.01
   scaleCV: 5.0
-  nt: 4000
-  nsave: 200
+  nt: 12000
+  nsave: 1000
   restart: false
   startStep: 0
   fsiType: off
   useIC: unused
-  wallSlip: noSlip
+  wallSlip: slip
   timeScheme: [ADAMS_BASHFORTH_2, CRANK_NICOLSON]
-  ibmScheme: TAIRA_COLONIUS
+  ibmScheme: DIRECT_FORCING
   linearSolvers:
     - system: velocity
       solver: CG
